@@ -1,0 +1,11 @@
+## 実装したい機能
+- []  searchWithName
+  - 引数に馬の名前を指定して実行すると、HorseIDを返してくるAPI
+  - HorseIDを調べるためだけにhtmlをダウンロードしてくるのは無駄が多いので、以下の案を思いついた
+    - ヒットしたのが1件だけなら body にページの html を代入して返す。
+    - ヒットしたのが１件以上の場合は、bodyに検索結果の html を代入して返す。
+- []  searchWithHorseID
+  - HorseIDは一意的なものだから search を名前に使うのは間違っている気がする。
+- []  selectHorseInfo
+  - fetch みたいに {select:name,sex,..} みたいに欲しい情報を指定できるようになるといいかも
+  - 

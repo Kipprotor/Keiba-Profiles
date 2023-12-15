@@ -1,0 +1,14 @@
+{
+  "lint": {
+    "include": ["./src/"],
+    "exclude": ["./.deno/"],    
+  },
+  "fmt": {
+    "include": ["./src/"],
+    "exclude": ["./.deno/"],
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": false,
+    "useTabs": false
+  }
+}
