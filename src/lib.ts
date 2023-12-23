@@ -3,17 +3,11 @@ import * as cheerio from "npm:cheerio@1.0.0-rc.12";
 
 function generateURL(horseName: string): string {
   // 馬の名前 horseName を EUC-JP に変換
-  const eucjpBuffer = iconv.encode(horseName, "eucjp");
-
-  // バイトを % で区切って連結
-  const encodedName = Array.from(eucjpBuffer)
-    .map((byte) => "%" + byte.toString(16).toUpperCase())
-    .join("");
-
+  encodedHorseName = encodeURIeucJP(horseName);
   // NetkeibaのURLを構築
-  return `https://db.netkeiba.com/?pid=horse_list&word=${encodedName}`;
+  return `https://db.netkeiba.com/?pid=horse_list&word=${encodedName}&match=1`;
 }
-/*
+
 function encodeURIeucJP(str: string): string {
   // 文字列を EUC-JP に変換
   //const eucjpBuffer = encode(str, 'eucjp');
@@ -25,10 +19,9 @@ function encodeURIeucJP(str: string): string {
 
   return uriEncoded;
 }
-*/
 
 interface netkeibaResponse {
-  //url: string;
+  url: string;
   body: string;
   unique: boolean;
 }
@@ -43,9 +36,11 @@ async function getSearchResultHtml(url: string): Promise<netkeibaResponse> {
     ResponseのbodyをArrayBufferとして取得
     それをUint8Arrayに変換している。Uint8ArrayはBufferに相当する。
     */
-    const nkResponse = {body: iconv.decode(blob, "euc-jp"),
-                        unique: response.redirected
-                       }
+    const nkResponse = {
+      url: response.url,
+      body: iconv.decode(blob, "euc-jp"),
+      unique: response.redirected,
+    };
     return nkResponse;
   } catch (error) {
     console.error("Error during HTTP request:", error);
@@ -62,11 +57,26 @@ function selectHorseInfo(html: string): string[] {
   // profからtdタグのテキストを取得
   const horseInfo: string[] = [];
   prof.find("td").each((_, element) => {
-    const text = $(element).text();
+    const text = $(element).text().replace(/\r?\n|\-/g, "");
     horseInfo.push(text);
   });
 
   return horseInfo;
 }
 
-export { generateURL, getSearchResultHtml, selectHorseInfo };
+function parseSearchResult(html: string): string[][] {
+  const $ = cheerio.load(html);
+
+  const rows: string[][] = [];
+  const sel = 'table[class="nk_tb_common race_table_01"] tr';
+  const searchResult = $(sel);
+  searchResult.each((_, element) => {
+    const row: string[] = [];
+    $(element).find("th, td").each((_, element) => {
+      row.push($(element).text().replace(/\r?\n/g, ""));
+    });
+    rows.push(row);
+  });
+  return rows;
+}
+export { generateURL, getSearchResultHtml, parseSearchResult, selectHorseInfo };
