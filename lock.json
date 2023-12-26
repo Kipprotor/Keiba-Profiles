@@ -1,12 +1,11 @@
 {
-  "version": "2",
-  "remote": {},
-  "npm": {
+  "version": "3",
+  "packages": {
     "specifiers": {
-      "cheerio@1.0.0-rc.12": "cheerio@1.0.0-rc.12",
-      "iconv-lite@0.6.3": "iconv-lite@0.6.3"
+      "npm:cheerio@1.0.0-rc.12": "npm:cheerio@1.0.0-rc.12",
+      "npm:iconv-lite@0.6.3": "npm:iconv-lite@0.6.3"
     },
-    "packages": {
+    "npm": {
       "boolbase@1.0.0": {
         "integrity": "sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==",
         "dependencies": {}
@@ -117,5 +116,6 @@
         "dependencies": {}
       }
     }
-  }
+  },
+  "remote": {}
 }

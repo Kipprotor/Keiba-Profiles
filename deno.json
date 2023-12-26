@@ -1,14 +1,20 @@
+// 参考・引用: https://qiita.com/access3151fq/items/7aa44ee69b4a5ff867c7
 {
   "lint": {
     "include": ["./src/"],
-    "exclude": ["./.deno/"],    
   },
   "fmt": {
     "include": ["./src/"],
-    "exclude": ["./.deno/"],
+    // インデント幅
     "indentWidth": 2,
+    // 1行あたりの文字数
+    "lineWidth": 80,
+    // 行末にセミコロンを使うかどうか
     "semiColons": true,
+    // 引用符はシングルクオートとダブルクオートのどちらを使用するか
     "singleQuote": false,
+    // インデントにスペースとタブのどちらを使うか
     "useTabs": false
   }
+  //"exclude": ["./.deno/"]
 }

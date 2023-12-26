@@ -1,5 +1,4 @@
-import { default as iconv } from "npm:iconv-lite@0.6.3";
-
+import { iconv } from "./deps.ts";
 /*
 // 文字列を EUC-JP にエンコード
 const encodedBuffer = iconv.encode(inputString, 'euc-jp');
@@ -19,14 +18,16 @@ function encodeURIeucJP(str: string): string {
   // バイトを % で区切って連結
   const uriEncoded = Array.from(eucjpBuffer).map((byte) =>
     "%" + byte.toString(16).toUpperCase()
-  ).join("");
+  )
+    .join("");
 
   //console.log(uriEncoded);
   return uriEncoded;
 }
 
 // process.argv でコマンドライン引数を取得 slice(2) で最初の２つを削除
-const inputString: string[] = Deno.args.slice(3);
+const inputString: string[] = Deno.args;
+console.log(inputString)
 //const inputString = 'こんにちは';
 for (const item of inputString) {
   const encodedString = encodeURIeucJP(item);
