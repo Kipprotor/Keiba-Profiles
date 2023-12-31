@@ -1,4 +1,4 @@
-## Race
+## RaceResult
 - id: string; // 201509030811
 - raceDate: Date;
 - monthCnt: number; // 3
