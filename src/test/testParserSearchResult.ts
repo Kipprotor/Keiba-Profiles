@@ -1,5 +1,5 @@
-import { searchInNetkeiba } from "../net/crawler.ts";
-import { parseHorseInfo, parseSearchResult } from "../net/parser.ts";
+import { searchOnNetkeiba } from "../crawler.ts";
+import { scrapeHorseInfo, scrapeSearchResult } from "../scrape/scraper.ts";
 //import { lookupID } from "./wrapper.ts";
 
 //const horseName = "エクスカリバー";
@@ -15,14 +15,14 @@ console.log(result);
 
 try {
   // HTMLを取得
-  const response = await searchInNetkeiba({ horseName: horseName });
+  const response = await searchOnNetkeiba({ horseName: horseName });
   //console.log(response);
   if (response.unique) {
     // HTMLから馬の情報を取得して、ターミナルに表示
-    const horseInfo = parseHorseInfo(response.body);
+    const horseInfo = scrapeHorseInfo(response.html);
     console.log("horseInfo ", horseInfo);
   } else {
-    const rows = parseSearchResult(response.body);
+    const rows = scrapeSearchResult(response.html);
     console.log(rows);
   }
 } catch (error) {

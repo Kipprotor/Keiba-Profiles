@@ -1,4 +1,4 @@
-export type { HorseInfo, HorseProfile, RaceResult, SearchResult };
+export type { HorseInfo, HorseProfile, Pedgree, RaceResult, SearchResult };
 
 interface SearchResult {
   horseId: string;
@@ -15,10 +15,9 @@ interface HorseProfile {
 }
 
 interface HorseInfo {
-  horseId?: string;
+  horseId: string;
   horseName: string;
   horseEngName?: string;
-  //retired: boolean;
   regist: string;
   sex: string;
 
@@ -33,10 +32,16 @@ interface HorseInfo {
   */
   totalPrize: string;
   recode: string;
-  /*
-  fathersName: string;
-  mothersName: string;
-  */
+  pedgree: Pedgree;
+}
+
+interface Pedgree {
+  fatherName: string;
+  fFatherName: string;
+  fMotherName: string;
+  motherName: string;
+  mFatherName: string;
+  mMotherName: string;
 }
 
 interface RaceResult {

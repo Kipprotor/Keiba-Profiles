@@ -1,15 +1,18 @@
 import { cheerio } from "../deps.ts";
-import { HorseInfo } from "../model.ts";
+import { HorseInfo, Pedgree } from "../model.ts";
 
-export { parseHorseInfo, parseHorseTitle, parseProfTable };
+export { scrapeHorseInfo, scrapeHorseTitle, scrapePedigree, scrapeProfTable };
 
-function parseHorseInfo(html: string): HorseInfo {
-  const [horseName, horseEngName, regist, sex, coatColor] = parseHorseTitle(
-    html,
-  );
-  const profTblRows = parseProfTable(html);
+function scrapeHorseInfo(html: string): HorseInfo {
+  const [horseId, horseName, horseEngName, regist, sex, coatColor] =
+    scrapeHorseTitle(
+      html,
+    );
+  const profTblRows = scrapeProfTable(html);
+  const pedgree = scrapePedigree(html);
 
   const horseInfo: HorseInfo = {
+    horseId: horseId,
     horseName: horseName,
     horseEngName: horseEngName,
     regist: regist,
@@ -21,16 +24,14 @@ function parseHorseInfo(html: string): HorseInfo {
     breeder: profTblRows[3],
     totalPrize: profTblRows[6],
     recode: profTblRows[7],
-    /*
-    fathersName:
-    mothersName:
-    */
+    pedgree: pedgree,
   };
   return horseInfo;
 }
 
-function parseHorseTitle(html: string): string[] {
+function scrapeHorseTitle(html: string): string[] {
   const $ = cheerio.load(html);
+  const horseId = $("link[rel='canonical']").attr("href")?.split("/")[4] || "";
   const horseTitle = 'div[class="horse_title"]';
   const horseName = $(horseTitle).find("h1").text();
   const horseEngName = $(horseTitle).find("p[class='eng_name']").text()
@@ -55,10 +56,10 @@ function parseHorseTitle(html: string): string[] {
   }
   sex = sexAge[0];
 
-  return [horseName, horseEngName, regist, sex, coatColor];
+  return [horseId, horseName, horseEngName, regist, sex, coatColor];
 }
 
-function parseProfTable(html: string): string[] {
+function scrapeProfTable(html: string): string[] {
   const $ = cheerio.load(html);
   // tableタグでクラス名が db_prof_table で始まる要素を取得
   const prof = $('table[class^="db_prof_table"]');
@@ -85,11 +86,19 @@ function parseProfTable(html: string): string[] {
   }
   return profTblRows;
 }
-/*
-function parsePedigree(html: string): string[] {
-  const $ = cheerio.load(html);
-  const pedTable = $('table[class="blood_table"]');
 
+function scrapePedigree(html: string): Pedgree {
+  const $ = cheerio.load(html);
+  const pedgreeArray = $('table[class="blood_table"]').find("td").map(
+    (_, element) => $(element).text().replaceAll("\n", ""),
+  ).get();
+  const pedgree: Pedgree = {
+    fatherName: pedgreeArray[0],
+    fFatherName: pedgreeArray[1],
+    fMotherName: pedgreeArray[2],
+    motherName: pedgreeArray[3],
+    mFatherName: pedgreeArray[4],
+    mMotherName: pedgreeArray[5],
+  };
+  return pedgree;
 }
-function parseRaceResult(html: string): RaceResult[][] {}
-*/

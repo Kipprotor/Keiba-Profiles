@@ -1,14 +1,9 @@
 import { cheerio } from "../deps.ts";
 import { SearchResult } from "../model.ts";
-import {
-  parseHorseInfo,
-  parseHorseTitle,
-  parseProfTable,
-} from "./ProfPageParser.ts";
 
-export { parseHorseInfo, parseHorseTitle, parseProfTable, parseSearchResult };
+export { scrapeSearchResult };
 
-function parseSearchResult(html: string): SearchResult[] {
+function scrapeSearchResult(html: string): SearchResult[] {
   const $ = cheerio.load(html);
   const rows: SearchResult[] = [];
   // 検索結果のtable要素と、表の見出し以外のtr要素を選択
@@ -54,5 +49,3 @@ function parseSearchResult(html: string): SearchResult[] {
   });
   return rows;
 }
-
-//function parseProfPage(html: string): string {}

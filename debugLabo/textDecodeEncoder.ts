@@ -19,7 +19,7 @@ function encodeURIeucJP(str: string): string {
   
   // バイトを % で区切って連結
   const uriEncoded = Array.from(eucjpBuffer)
-    .map((byte) => "%" + byte.toString(16).toUpperCase()
+    .map((byte) => "%" + (byte as number).toString(16).toUpperCase()
   )
     .join("");
 

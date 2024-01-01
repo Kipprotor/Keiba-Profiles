@@ -1,6 +1,6 @@
-import { iconv } from "../deps.ts";
+import { iconv } from "./deps.ts";
 
-export { generateURL, searchInNetkeiba };
+export { generateURL, searchOnNetkeiba };
 
 interface searchQuery {
   horseName: string;
@@ -10,11 +10,11 @@ interface searchQuery {
 
 interface netkeibaResponse {
   url: string;
-  body: string;
+  html: string;
   unique: boolean;
 }
 
-async function searchInNetkeiba(
+async function searchOnNetkeiba(
   options: searchQuery,
 ): Promise<netkeibaResponse> {
   const url = generateURL(options);
@@ -29,7 +29,7 @@ async function searchInNetkeiba(
     */
     const nkResponse: netkeibaResponse = {
       url: response.url,
-      body: iconv.decode(blob, "euc-jp"),
+      html: iconv.decode(blob, "euc-jp"),
       unique: response.redirected,
     };
     return nkResponse;
