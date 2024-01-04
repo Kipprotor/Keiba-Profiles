@@ -1,5 +1,5 @@
-import { searchOnNetkeiba } from "../index.ts";
-import { cheerio } from "../deps.ts";
+import { searchOnNetkeiba } from "../src/index.ts";
+import { cheerio } from "../src/deps.ts";
 
 const res = await searchOnNetkeiba({ horseName: "パンサラッサ" });
 const $ = cheerio.load(res.html);

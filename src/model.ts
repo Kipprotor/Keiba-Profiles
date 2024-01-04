@@ -5,8 +5,8 @@ interface SearchResult {
   horseName: string;
   sex: string;
   birthyear: number;
-  fathersName: string;
-  mothersName: string;
+  fatherName: string;
+  motherName: string;
 }
 
 interface HorseProfile {

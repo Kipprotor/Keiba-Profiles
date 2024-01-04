@@ -3,6 +3,9 @@ import { HorseInfo, Pedgree } from "../model.ts";
 
 export { scrapeHorseInfo, scrapeHorseTitle, scrapePedigree, scrapeProfTable };
 
+/*
+function scrapeProfile(html: string): HorseProfile {}
+*/
 function scrapeHorseInfo(html: string): HorseInfo {
   const [horseId, horseName, horseEngName, regist, sex, coatColor] =
     scrapeHorseTitle(
@@ -84,21 +87,33 @@ function scrapeProfTable(html: string): string[] {
         .parent().find("td").text().replaceAll("\n", ""),
     );
   }
+  //const birthday = profTblRows[0];
+  //profTblRows[0] = parse(birthday, "yyyy年MM月dd日", new Date(), { locale: ja });
   return profTblRows;
 }
 
 function scrapePedigree(html: string): Pedgree {
   const $ = cheerio.load(html);
-  const pedgreeArray = $('table[class="blood_table"]').find("td").map(
+  const [
+    fatherName,
+    fFatherName,
+    fMotherName,
+    motherName,
+    mFatherName,
+    mMotherName,
+  ] = $('table[class="blood_table"]').find("td").map(
     (_, element) => $(element).text().replaceAll("\n", ""),
   ).get();
+
+  // pedgree に分割代入
   const pedgree: Pedgree = {
-    fatherName: pedgreeArray[0],
-    fFatherName: pedgreeArray[1],
-    fMotherName: pedgreeArray[2],
-    motherName: pedgreeArray[3],
-    mFatherName: pedgreeArray[4],
-    mMotherName: pedgreeArray[5],
+    fatherName,
+    fFatherName,
+    fMotherName,
+    motherName,
+    mFatherName,
+    mMotherName,
   };
+
   return pedgree;
 }

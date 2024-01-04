@@ -1,8 +1,13 @@
 import { cheerio } from "../deps.ts";
-import { SearchResult } from "../model.ts";
+import { HorseInfo, SearchResult } from "../model.ts";
 
-export { scrapeSearchResult };
+export { horseInfo2SearchResult, scrapeSearchResult };
 
+/**
+ * Scrape search result page
+ * @param {string} html : HTML string of search result page
+ * @returns {SearchResult[]} Array of searchResult type
+ */
 function scrapeSearchResult(html: string): SearchResult[] {
   const $ = cheerio.load(html);
   const rows: SearchResult[] = [];
@@ -42,10 +47,30 @@ function scrapeSearchResult(html: string): SearchResult[] {
       horseName: horseName,
       sex: sex,
       birthyear: parseInt(birthyear),
-      fathersName: txtLArray[2],
-      mothersName: txtLArray[3],
+      fatherName: txtLArray[2],
+      motherName: txtLArray[3],
     };
     rows.push(row);
   });
   return rows;
+}
+
+/**
+ * Convert horseInfo type to SearchResult type
+ * @param {HorseInfo} horseInfo : HorseInfo type return from scrapeHorseInfo
+ * @returns {SearchResult} [singleSearchResult] : SearchResult type
+ */
+function horseInfo2SearchResult(horseInfo: HorseInfo): SearchResult[] {
+  const birthyear = parseInt(horseInfo.birthday.slice(0, 4));
+  const fatherName = horseInfo.pedgree.fatherName;
+  const motherName = horseInfo.pedgree.motherName;
+  const singleSearchResult: SearchResult = {
+    horseId: horseInfo.horseId,
+    horseName: horseInfo.horseName,
+    sex: horseInfo.sex,
+    birthyear,
+    fatherName,
+    motherName,
+  };
+  return [singleSearchResult];
 }

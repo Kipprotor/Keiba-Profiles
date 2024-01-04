@@ -4,9 +4,13 @@ import {
   scrapePedigree,
   scrapeProfTable,
 } from "./scrapeProfile.ts";
-import { scrapeSearchResult } from "./scrapeSearchResult.ts";
+import {
+  horseInfo2SearchResult,
+  scrapeSearchResult,
+} from "./scrapeSearchResult.ts";
 
 export {
+  horseInfo2SearchResult,
   scrapeHorseInfo,
   scrapeHorseTitle,
   scrapePedigree,
