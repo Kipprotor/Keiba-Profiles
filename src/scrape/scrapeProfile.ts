@@ -6,12 +6,14 @@ export { scrapeHorseInfo, scrapeHorseTitle, scrapePedigree, scrapeProfTable };
 /*
 function scrapeProfile(html: string): HorseProfile {}
 */
+
 function scrapeHorseInfo(html: string): HorseInfo {
   const [horseId, horseName, horseEngName, regist, sex, coatColor] =
     scrapeHorseTitle(
       html,
     );
   const profTblRows = scrapeProfTable(html);
+  const [prizeJRA, prizeNAU] = extractPrize(profTblRows[6]);
   const pedgree = scrapePedigree(html);
 
   const horseInfo: HorseInfo = {
@@ -25,7 +27,8 @@ function scrapeHorseInfo(html: string): HorseInfo {
     trainer: profTblRows[1],
     owner: profTblRows[2],
     breeder: profTblRows[3],
-    totalPrize: profTblRows[6],
+    totalPrizeJRA: prizeJRA,
+    totalPrizeNAR: prizeNAU,
     recode: profTblRows[7],
     pedgree: pedgree,
   };
@@ -90,6 +93,32 @@ function scrapeProfTable(html: string): string[] {
   //const birthday = profTblRows[0];
   //profTblRows[0] = parse(birthday, "yyyy年MM月dd日", new Date(), { locale: ja });
   return profTblRows;
+}
+
+function extractPrize(prize: string): number[] {
+  const prizeArray = prize.replaceAll(" ", "").split("/");
+  let prizeJRA = 0;
+  let prizeNAU = 0";
+
+  for (const prize of prizeArray) {
+    if (prize.includes("中央")) {
+      prizeJRA = prizeNormalizer(prize);
+    } else if (prize.includes("地方")) {
+      prizeNAU = prizeNormalizer(prize);
+    }
+  }
+  return [prizeJRA, prizeNAU];
+}
+
+function prizeNormalizer(prize: string): number {
+  const regex = /[億万]/;
+  const pSplited = prize.split(regex);
+  if (pSplited.length == 3) {
+    const result = parseInt(pSplited[0])*10**4 + parseInt(pSplited[1])
+    return result
+  } else {
+   return parseInt(pSplited[0])   
+  }
 }
 
 function scrapePedigree(html: string): Pedgree {

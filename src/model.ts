@@ -26,11 +26,8 @@ interface HorseInfo {
   trainer: string;
   owner: string;
   breeder: string;
-  /*
-  totalPrizeJRA?: number;
-  totalPrizeNAR?: number;
-  */
-  totalPrize: string;
+  totalPrizeJRA: number;
+  totalPrizeNAR: number;
   recode: string;
   pedgree: Pedgree;
 }
@@ -47,7 +44,6 @@ interface Pedgree {
 interface RaceResult {
   id: string; // 201509030811
   raceDate: Date;
-  //参考 https://qiita.com/t-yama-3/items/29bd686f2a8b3cb9e784
 
   monthCnt: number; // 3
   course: string; // 阪神

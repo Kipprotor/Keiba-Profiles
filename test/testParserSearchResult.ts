@@ -4,9 +4,9 @@ import {
   scrapeSearchResult,
 } from "../src/index.ts";
 
-const horseNames = ["エクスカリバー", "シルヴァーソニック", "パンサラッサ"];
-//const fathersName = "su";
-//const mothersName = "mr";
+const horseNames = ["エクスカリバー", "パンサラッサ", "オヌシナニモノ"];
+// const fathersName = "su";
+// const mothersName = "mr";
 /*
 const result = await lookupID(horseName);
 console.log(result);
