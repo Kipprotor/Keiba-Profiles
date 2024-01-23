@@ -1,28 +1,16 @@
 import { iconv } from "./deps.ts";
-
+import { NetkeibaResponse, searchQuery } from "./model.ts";
 export { accessByID, generateURL, searchOnNetkeiba };
-
-interface searchQuery {
-  horseName: string;
-  fatherName?: string;
-  motherName?: string;
-}
-
-interface netkeibaResponse {
-  url: string;
-  html: string;
-  unique: boolean;
-}
 
 /**
  * searchOnNetkeiba
- * @param {searchQuery} options {horseName fatherName motherName}
+ * @param {searchQuery} options {horseName fatherName? motherName?}
  * @returns {Promise<netkeibaResponse>}
  * netkeibaResponse {url html unique}
  */
 async function searchOnNetkeiba(
   options: searchQuery,
-): Promise<netkeibaResponse> {
+): Promise<NetkeibaResponse> {
   const url = generateURL(options);
   try {
     const response = await fetch(url, { redirect: "follow" });
@@ -33,7 +21,7 @@ async function searchOnNetkeiba(
     ResponseのbodyをArrayBufferとして取得、それをUint8Arrayに変換している。
     Uint8ArrayはBufferに相当する。
     */
-    const nkResponse: netkeibaResponse = {
+    const nkResponse = {
       url: response.url,
       html: iconv.decode(blob, "euc-jp"),
       unique: response.redirected,
@@ -45,7 +33,12 @@ async function searchOnNetkeiba(
   }
 }
 
-async function accessByID(horseID: string): Promise<netkeibaResponse> {
+/**
+ * accessByID accessess the page of the horse by the horseId.
+ * @param {string} horseID
+ * @return Promise netkeibaPesponse
+ */
+async function accessByID(horseID: string): Promise<NetkeibaResponse> {
   const url = `https://db.netkeiba.com/horse/${horseID}/`;
   try {
     const response = await fetch(url, { redirect: "follow" });
@@ -56,7 +49,7 @@ async function accessByID(horseID: string): Promise<netkeibaResponse> {
     ResponseのbodyをArrayBufferとして取得、それをUint8Arrayに変換している。
       Uint8ArrayはBufferに相当する。
       */
-    const nkResponse: netkeibaResponse = {
+    const nkResponse = {
       url: response.url,
       html: iconv.decode(blob, "euc-jp"),
       unique: true,
@@ -70,7 +63,7 @@ async function accessByID(horseID: string): Promise<netkeibaResponse> {
 
 /**
  * generateURL returns searching URL
- * @param {searchQuery} options {horseName fatherName motherName}
+ * @param {searchQuery} query {horseName fatherName? motherName?}
  * @returns {string} url
  */
 function generateURL(query: searchQuery): string {

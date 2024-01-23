@@ -1,4 +1,24 @@
-export type { HorseInfo, HorseProfile, Pedgree, RaceResult, SearchResult };
+export type {
+  HorseInfo,
+  HorseProfile,
+  NetkeibaResponse,
+  Pedgree,
+  RaceResult,
+  searchQuery,
+  SearchResult,
+};
+
+interface searchQuery {
+  horseName: string;
+  fatherName?: string;
+  motherName?: string;
+}
+
+interface NetkeibaResponse {
+  url: string;
+  html: string;
+  unique: boolean;
+}
 
 interface SearchResult {
   horseId: string;

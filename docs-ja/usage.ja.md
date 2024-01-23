@@ -44,13 +44,3 @@ hoofsteps \[オプション\] 馬名
 
 - -h, --help
   - 使い方を表示
-
-#### ライブラリ: Keiba Profile
-
-```typescript
-import * as kbprof from keiba-profile;
-```
-
-```typescript
-kbprof.serchInNetkeiba(${horseName}, conf=all);
-```

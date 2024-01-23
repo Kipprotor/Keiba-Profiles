@@ -1,5 +1,6 @@
 function extractPrize(prize: string): number[] {
-  const prizeArray = prize.replaceAll(" ", "").split("/");
+  const prizeArray = prize.replace(/ |,/g, "").split("/");
+  //console.log(prizeArray);
   let prizeJRA = 0;
   let prizeNAU = 0;
 
@@ -24,6 +25,6 @@ function prizeNormalizer(prize: string): number {
   }
 }
 
-const prize = "1億170万円 (中央) / 400万円 (地方)";
+const prize = "8,435万円 (中央) /1,208万円 (地方)";
 const [prizeJRA, prizeNAU] = extractPrize(prize);
 console.log({prizeJRA, prizeNAU});

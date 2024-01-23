@@ -27,12 +27,18 @@ https://db.netkeiba.com/horse/2017106711/ の2017106711の部分
       - scrapeHorseInfo と scrapeRaceResult のラッパー
     - ~~parse~~ scrapeHorseInfo
     - extractPrizeString(string) => number[]
-      - 以下のような文字列を場所ごとの賞金に分けて配列で返す関数。
+      - 以下のような文字列を組織ごとの賞金に分けて配列で返す関数。
       - input: "4170万円 (中央) / 3400万円 (地方)"
       - output: [prizeJRA,prizeNAU] = [4170,3400]
     - ~~parse~~ scrapeHorseTitle
     - ~~parse~~ scrapeProfTable
+    - extractPrize
+      - "8,435万円 (中央) /1,208万円 (地方)" などの文字列を、[8435,1208] という数値の入った配列に変換する関数。
+      - 内部で prizeNormalier を使用
+    - prizeNormalizer
+      - "3億170万円(中央)"という数値から 30170 という数値に変換する関数
     - ~~parse~~ scrapePedigree
+      - 'table[class="blood_table"]' から、[父,父の父,父の母,母,母の父,母の母] の名前を取り出す関数
 - ~~parse~~ scrapeRaceResult.ts
   - ~~parse~~ scrapeRaceResult
 ## /src
@@ -52,24 +58,28 @@ https://db.netkeiba.com/horse/2017106711/ の2017106711の部分
     - netkeibaResponse = {url: string,body:string,unique:boolean}
 - wrapper.ts
   - functions
-    - lookupID(name) => SearchResult[]
+    - lookupID(quety:searchQuery) => SearchResult[]
       - 名前から HorseID を取得する関数
       - 変更完了 ~~1件しかヒットしなかった場合(競走馬のプロフィールページにリダイレクトされた場合)の処理が完成したら返り値を searchResult に変更する。~~
-    - profileByName({name, year?, father?, mother?})
+    - profileByName(query:searchQuery ~~{name, year?, father?, mother?}~~) => HorseInfo ~~HorseInfo~~
       - 競走馬の名前で検索して情報を取得する関数
       - 名前の指定は必須だが、オプション引数として、生年や、父馬と母馬の名前を指定できる。
-      - 検索結果が1件以上だった場合、エラーを返す。
-    - profileByID(horseId)
+      - 検索結果が2件以上だった場合、現在(2024/01/05)は undefined を返す。~~エラーを返す。~~
+    - profileByID(horseId:string) => HorseInfo ~~HorseProfile~~
       - HorseIDを使って情報を取得する関数
 - model.ts
   - パースするときに使う正規表現などの定数や、パースした結果を代入する型を定義
   - 主に scraper.ts が使用
   - interface
-    - searchResult
+    - searchQuery
+      - {horseName,fatherName?,motherName?}
+    - SearchResult
       - scrapeSearchResultが使用
-    - horseInfo
+    - HorseProfile
+      - HorseInfo と RaceResult を格納
+    - HorseInfo
       - scrapeHorseInfo が使用
-    - raceResult
+    - RaceResult
       - scrapeRaceResult が使用
 
 ## /test

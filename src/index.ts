@@ -1,6 +1,7 @@
-import { generateURL, searchOnNetkeiba } from "./crawler.ts";
+import { accessByID, searchOnNetkeiba } from "./crawler.ts";
 import { lookupID, profileByID, profileByName } from "./wrapper.ts";
 import {
+  extractPrize,
   scrapeHorseInfo,
   scrapeHorseTitle,
   scrapePedigree,
@@ -9,7 +10,8 @@ import {
 } from "./scrape/scraper.ts";
 
 export {
-  generateURL,
+  accessByID,
+  extractPrize,
   lookupID,
   profileByID,
   profileByName,

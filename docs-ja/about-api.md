@@ -1,16 +1,110 @@
-### 動作プロセス
+### API 一覧
 
-- 引数として受け取った馬の名前をEUC-JP形式でURIエンコードする。(encodedName
-  に代入する)
-- 変数展開し以下のURLにアクセスし、htmlを取得する。
-  "https://db.netkeiba.com/?pid=horse_list&word=${encodedName}"
-  - このとき https://db.netkeiba.com/horse/2009102739/
-    などのURLにリダイレクトされる。
-- 関数に代入する: getHorseInfo(html)
-  - htmlから tableタグでクラス名が db_prof_table で始まる要素を取得
-    (取得した要素は prof と呼ぶ)
-  - prof から tdタグ、またはtdタグの下にあるaタグのテキストを取得する。
-  - テキストは全て EUC-JP でエンコードされているので UTF-8 にエンコードし直す。
-- エンコードしなおしたテキストをターミナルに表示する。
+**注: コードで query という変数を使っていた場合以下の書き方に従う。なお、fatherName と motherName の指定は必須ではない**
+```typescript
+query = {horseName:horseName,fatherName:fatherName,motherName:motherName}
+```
 
-### API 一覧表
+#### wrapper ‐ 短いコードで情報を収集できます。
+**lookupID**
+```typescript
+const result = lookupID(query);
+// result: searchResult[]
+```
+
+**profileByName**
+```typescript
+const result = profileByName(query)
+// result: HorseInfo
+```
+
+**profileByID**
+```typescript
+const result = profileByID("201710xxxx")
+// result: HorseInfo
+```
+
+#### htmlを取得
+**searchOnNetkeiba**
+```typescript
+const res = await searchOnNetkeiba(query);
+/* response: NetkeibaResponse = {
+  url: string,
+  html: string,
+  unique: boolean,
+    unique が True の場合 db.netkeiba.com/horse/ 以下のページにリダイレクト
+    False の場合 検索結果ページにアクセスしたことを示す。             
+}*/
+```
+
+**accessByID**
+```typescript
+const res = await accesssByID(horseID);
+/* res: NetkeibaRespponse
+searchOnNetkeiba と同じ
+*/
+```
+
+#### db.netkeiba.com の html をスクレイピングし、情報を抜き出す関数
+**scrapeHorseInfo**
+```typescript
+// html は res.html が代入することを想定している。ただし、別の方法で取得した html でも可能。
+const horseInfo = scrapeHorseInfo(html);
+```
+
+**scrapeHorseTitle**
+```typescript
+const horseTitle = scrapeHorseInfo(html);
+/* horseTitle:string[] = [
+  horseId, horseName, horseEngName, 
+  regist, sex, coatColor];
+*/
+```
+
+**scrapePedigree**
+```typescript
+const pedgree = scrapePedgree(html);
+/* pedgree: Pedgree = {
+    fatherName,
+    fFatherName,
+    fMotherName,
+    motherName,
+    mFatherName,
+    mMotherName,
+    }
+*/
+```
+**scrapeProfTable**
+```typescript
+const profTbl = scrapeProfTable(html;
+/* profTbl:string[] = [
+    "生年月日",
+    "調教師",
+    "馬主",
+    "生産者",
+    "産地",
+    "セリ取引価格",
+    "獲得賞金",
+    "通算成績",
+]*/
+```
+
+**scrapeSearchResult**
+```typescript
+const rows = scrapeSearchResult(html);
+/* rows: SearchResult[] = [
+  {
+  horseId: string;
+  horseName: string;
+  sex: string;
+  birthyear: number;
+  fatherName: string;
+  motherName: string;
+  },{
+  horseId: string;
+  ...
+  },{
+  ...
+]
+*/
+```

@@ -1,5 +1,5 @@
 import { accessByID, searchOnNetkeiba } from "./crawler.ts";
-import { SearchResult } from "./model.ts";
+import { searchQuery, SearchResult } from "./model.ts";
 import {
   horseInfo2SearchResult,
   scrapeHorseInfo,
@@ -8,8 +8,8 @@ import {
 
 export { lookupID, profileByID, profileByName };
 
-async function lookupID(name: string): Promise<SearchResult[]> {
-  const response = await searchOnNetkeiba({ horseName: name });
+async function lookupID(query: searchQuery): Promise<SearchResult[]> {
+  const response = await searchOnNetkeiba(query);
   let result: SearchResult[] = [];
   if (response.unique) {
     // 例: url = https://db.netkeiba.com/horse/2017106711/
@@ -22,8 +22,8 @@ async function lookupID(name: string): Promise<SearchResult[]> {
   return result;
 }
 
-async function profileByName(name: string) {
-  const res = await searchOnNetkeiba({ horseName: name });
+async function profileByName(query: searchQuery) {
+  const res = await searchOnNetkeiba(query);
   if (res.unique) {
     const result = scrapeHorseInfo(res.html);
     return result;
