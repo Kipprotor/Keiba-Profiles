@@ -9,9 +9,10 @@ export type {
 };
 
 interface searchQuery {
-  horseName: string;
+  horseName?: string;
   fatherName?: string;
   motherName?: string;
+  page?: number;
 }
 
 interface NetkeibaResponse {

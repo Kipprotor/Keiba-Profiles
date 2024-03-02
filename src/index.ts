@@ -1,4 +1,4 @@
-import { accessByID, searchOnNetkeiba } from "./crawler.ts";
+import { fetchByID, searchOnNetkeiba } from "./crawler.ts";
 import { lookupID, profileByID, profileByName } from "./wrapper.ts";
 import {
   extractPrize,
@@ -10,8 +10,8 @@ import {
 } from "./scrape/scraper.ts";
 
 export {
-  accessByID,
   extractPrize,
+  fetchByID,
   lookupID,
   profileByID,
   profileByName,

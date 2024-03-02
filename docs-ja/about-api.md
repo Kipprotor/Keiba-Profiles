@@ -1,33 +1,40 @@
-### API 一覧
+## API 一覧
 
-**注: コードで query という変数を使っていた場合以下の書き方に従う。なお、fatherName と motherName の指定は必須ではない**
+**注: コードで query という変数を使っていた場合以下の書き方に従う。なお、fatherName と motherName の指定は必須ではない。また、pageは検索結果ページの何ページ目かを指定するもので、基本的には指定する必要はない。**
 ```typescript
-query = {horseName:horseName,fatherName:fatherName,motherName:motherName}
+query = {horseName:horseName,fatherName:fatherName,motherName:motherName,page:num}
 ```
 
-#### wrapper ‐ 短いコードで情報を収集できます。
+### wrapper ‐ 短いコードで情報を収集できます。
 **lookupID**
 ```typescript
 const result = lookupID(query);
 // result: searchResult[]
 ```
 
-**profileByName**
+**profileByName**:
+名前で競走馬の情報を検索することができる。query で指定された競走馬が一つに定まらないときはエラーが発生する。
 ```typescript
 const result = profileByName(query)
 // result: HorseInfo
 ```
 
-**profileByID**
+**profileByID**:
+正しくない、または、存在しない horseID を指定するとエラーが発生する。
 ```typescript
-const result = profileByID("201710xxxx")
+const horseID = "201710xxxx";
+const result = profileByID(horseID);
 // result: HorseInfo
 ```
 
-#### htmlを取得
+### htmlを取得する関数
 **searchOnNetkeiba**
 ```typescript
 const res = await searchOnNetkeiba(query);
+/*
+  page で検索結果の何ページ目を取得するかを指定できる。
+  page はオプション扱いなので指定しなくてもよい。
+*/
 /* response: NetkeibaResponse = {
   url: string,
   html: string,
@@ -37,15 +44,16 @@ const res = await searchOnNetkeiba(query);
 }*/
 ```
 
-**accessByID**
+**fetchByID**:
+正しくない、または、存在しない horseID を指定するとエラーが発生する。
 ```typescript
-const res = await accesssByID(horseID);
+const res = await fetchsByID(horseID);
 /* res: NetkeibaRespponse
 searchOnNetkeiba と同じ
 */
 ```
 
-#### db.netkeiba.com の html をスクレイピングし、情報を抜き出す関数
+### db.netkeiba.com の html をスクレイピングし、情報を抜き出す関数
 **scrapeHorseInfo**
 ```typescript
 // html は res.html が代入することを想定している。ただし、別の方法で取得した html でも可能。

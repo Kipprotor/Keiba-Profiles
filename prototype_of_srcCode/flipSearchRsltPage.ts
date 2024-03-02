@@ -1,7 +1,7 @@
 import { searchOnNetkeiba,scrapeSearchResult } from "../src/index.ts";
- import { searchResult } from "../src/model.ts";
+ import { SearchResult } from "../src/model.ts";
 
-let result: searchResult[] = [];
+let result: SearchResult[] = [];
 
 let i = 1
 while (true) {
