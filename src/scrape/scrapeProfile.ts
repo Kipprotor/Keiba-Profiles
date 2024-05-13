@@ -15,9 +15,7 @@ function scrapeProfile(html: string): HorseProfile {}
 
 function scrapeHorseInfo(html: string): HorseInfo {
   const [horseId, horseName, horseEngName, regist, sex, coatColor] =
-    scrapeHorseTitle(
-      html,
-    );
+    scrapeHorseTitle(html);
   const profTblRows = scrapeProfTable(html);
   const [prizeJRA, prizeNAU] = extractPrize(profTblRows[6]);
   const pedgree = scrapePedigree(html);

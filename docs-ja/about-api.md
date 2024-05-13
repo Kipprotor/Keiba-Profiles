@@ -6,20 +6,39 @@ query = {horseName:horseName,fatherName:fatherName,motherName:motherName,page:nu
 ```
 
 ### wrapper ‐ 短いコードで情報を収集できます。
-**lookupID**
+- **lookupID** (非推奨)
 ```typescript
 const result = lookupID(query);
 // result: searchResult[]
 ```
+- **lookupIDGenerator**
 
-**profileByName**:
+lookupID の AsyncGenerator版
+```typescript
+const data = lookupIDGenerator(query)
+let page = 1
+while (true) {
+  const result = await data.next()
+  console.log(result);
+  if (result.done) {
+    break;
+  }
+  await sleep(3000);
+}
+
+```
+
+- **profileByName**:
+
 名前で競走馬の情報を検索することができる。query で指定された競走馬が一つに定まらないときはエラーが発生する。
 ```typescript
 const result = profileByName(query)
 // result: HorseInfo
 ```
 
-**profileByID**:
+
+- **profileByID**:
+
 正しくない、または、存在しない horseID を指定するとエラーが発生する。
 ```typescript
 const horseID = "201710xxxx";
@@ -28,7 +47,7 @@ const result = profileByID(horseID);
 ```
 
 ### htmlを取得する関数
-**searchOnNetkeiba**
+‐ **searchOnNetkeiba**
 ```typescript
 const res = await searchOnNetkeiba(query);
 /*
@@ -44,7 +63,8 @@ const res = await searchOnNetkeiba(query);
 }*/
 ```
 
-**fetchByID**:
+- **fetchByID**:
+
 正しくない、または、存在しない horseID を指定するとエラーが発生する。
 ```typescript
 const res = await fetchsByID(horseID);
@@ -54,13 +74,13 @@ searchOnNetkeiba と同じ
 ```
 
 ### db.netkeiba.com の html をスクレイピングし、情報を抜き出す関数
-**scrapeHorseInfo**
+- **scrapeHorseInfo**
 ```typescript
 // html は res.html が代入することを想定している。ただし、別の方法で取得した html でも可能。
 const horseInfo = scrapeHorseInfo(html);
 ```
 
-**scrapeHorseTitle**
+- **scrapeHorseTitle**
 ```typescript
 const horseTitle = scrapeHorseInfo(html);
 /* horseTitle:string[] = [
@@ -69,7 +89,7 @@ const horseTitle = scrapeHorseInfo(html);
 */
 ```
 
-**scrapePedigree**
+- **scrapePedigree**
 ```typescript
 const pedgree = scrapePedgree(html);
 /* pedgree: Pedgree = {
@@ -82,7 +102,7 @@ const pedgree = scrapePedgree(html);
     }
 */
 ```
-**scrapeProfTable**
+- **scrapeProfTable**
 ```typescript
 const profTbl = scrapeProfTable(html;
 /* profTbl:string[] = [

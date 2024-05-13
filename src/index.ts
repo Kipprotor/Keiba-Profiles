@@ -1,5 +1,12 @@
 import { fetchByID, searchOnNetkeiba } from "./crawler.ts";
-import { lookupID, profileByID, profileByName } from "./wrapper.ts";
+
+import {
+  lookupID,
+  lookupIDGenerator,
+  profileByID,
+  profileByName,
+} from "./wrapper.ts";
+
 import {
   extractPrize,
   scrapeHorseInfo,
@@ -13,6 +20,7 @@ export {
   extractPrize,
   fetchByID,
   lookupID,
+  lookupIDGenerator,
   profileByID,
   profileByName,
   scrapeHorseInfo,

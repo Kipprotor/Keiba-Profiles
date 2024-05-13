@@ -4,7 +4,7 @@ import {
   searchOnNetkeiba,
 } from "../src/index.ts";
 
-const horseNames = ["エクスカリバー", "パンサラッサ", "オヌシナニモノ"];
+//const horseNames = ["エクスカリバー", "パンサラッサ", "オヌシナニモノ"];
 // const fathersName = "su";
 // const mothersName = "mr";
 /*
@@ -17,7 +17,7 @@ const response = await searchOnNetkeiba({ fatherName: "フジキセキ", page:1 
 if (response.unique) {
   // HTMLから馬の情報を取得して、ターミナルに表示
   const horseInfo = scrapeHorseInfo(response.html);
-  console.log({ horseName, horseInfo });
+  console.log({ horseInfo });
 } else {
   const rows = scrapeSearchResult(response.html);
   console.log({ rows });

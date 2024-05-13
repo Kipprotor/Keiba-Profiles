@@ -21,7 +21,7 @@ function generateURL(query: searchQuery): string {
     `&sire=${encddFatherName}` +
     `&mare=${encddMotherName}` +
     `&page=${query.page || 1}` +
-    `&list=100`;
+    `&list=20`;
 }
 
 /**
@@ -46,8 +46,6 @@ async function fetchHtml(url: string): Promise<NetkeibaResponse> {
   return nkResponse;
 }
 
-
-
 /**
  * searchOnNetkeiba
  * @param {searchQuery} options {horseName? fatherName? motherName? page?}
@@ -71,8 +69,8 @@ async function fetchByID(horseID: string): Promise<NetkeibaResponse> {
   const url = `https://db.netkeiba.com/horse/${horseID}/`;
   const res = await fetchHtml(url);
   if (res.url != url) {
-      throw new Error("You may have entered the wrong horseID or none exists.")
-  } 
+    throw new Error("You may have entered the wrong horseID or none exists.");
+  }
   const nkResponse = {
     url: res.url,
     html: res.html,
@@ -84,14 +82,15 @@ async function fetchByID(horseID: string): Promise<NetkeibaResponse> {
 function encodeURIeucJP(str: string | undefined): string {
   if (str == undefined) {
     return "";
-  }
-  // 文字列を EUC-JP に変換
-  //const eucjpBuffer = encode(str, 'eucjp');
-  const eucjpBuffer = iconv.encode(str, "eucjp");
-  // バイトを % で区切って連結
-  const uriEncoded = Array.from(eucjpBuffer)
-    .map((byte) => "%" + (byte as number).toString(16).toUpperCase())
-    .join("");
+  } else {
+    // 文字列を EUC-JP に変換
+    //const eucjpBuffer = encode(str, 'eucjp');
+    const eucjpBuffer = iconv.encode(str, "eucjp");
+    // バイトを % で区切って連結
+    const uriEncoded = Array.from(eucjpBuffer)
+      .map((byte) => "%" + (byte as number).toString(16).toUpperCase())
+      .join("");
 
-  return uriEncoded;
+    return uriEncoded;
+  }
 }

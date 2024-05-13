@@ -6,7 +6,7 @@ import {
   scrapeSearchResult,
 } from "./scrape/scraper.ts";
 
-export { lookupID, profileByID, profileByName };
+export { lookupID, lookupIDGenerator, profileByID, profileByName };
 
 async function lookupID(query: searchQuery): Promise<SearchResult[]> {
   let result: SearchResult[] = [];
@@ -23,12 +23,37 @@ async function lookupID(query: searchQuery): Promise<SearchResult[]> {
   return result;
 }
 
+// ページが終わったら、done:true を返すにはどうしたらいいか?
+async function* lookupIDGenerator(
+  query: searchQuery,
+): AsyncGenerator<SearchResult[]> {
+  let page = 0;
+  while (true) {
+    page++;
+    query.page = page;
+    const response = await searchOnNetkeiba(query);
+    if (response.unique) {
+      const horseInfo = scrapeHorseInfo(response.html);
+      return horseInfo2SearchResult(horseInfo);
+    } else {
+      const result = scrapeSearchResult(response.html);
+      if (result.length != 0) {
+        yield result;
+      } else {
+        return result;
+      }
+    }
+  }
+}
+
 async function profileByName(query: searchQuery): Promise<HorseInfo> {
   const res = await searchOnNetkeiba(query);
   if (res.unique) {
     return scrapeHorseInfo(res.html);
   } else {
-    throw new Error("Not found or multiple results. Modify the search query so that the search results are unique.");
+    throw new Error(
+      "Not found or multiple results. Modify the search query so that the search results are unique.",
+    );
   }
 }
 

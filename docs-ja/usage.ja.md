@@ -2,7 +2,7 @@
 
 ## 使い方
 
-#### コマンド: hoofsteps
+#### コマンド: hoofsteps (開発一時中止)
 
 hoofsteps \[オプション\] 馬名
 
