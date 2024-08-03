@@ -1,11 +1,6 @@
-import {
-  scrapeHorseTitle,
-  scrapePedigree,
-  searchOnNetkeiba,
-} from "../src/index.ts";
+import { scrapeHorseInfo, searchOnNetkeiba } from "../src/index.ts";
 
 const horse_html = await searchOnNetkeiba({ horseName: "パンサラッサ" });
 const html = horse_html.html;
-const horseInfo = scrapePedigree(html);
-const horseTitle = scrapeHorseTitle(html);
-console.log({ horseTitle, horseInfo });
+const horseInfo = scrapeHorseInfo(html);
+console.log({ horseInfo });

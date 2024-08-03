@@ -69,7 +69,7 @@ async function fetchByID(horseID: string): Promise<NetkeibaResponse> {
   const url = `https://db.netkeiba.com/horse/${horseID}/`;
   const res = await fetchHtml(url);
   if (res.url != url) {
-    throw new Error("You may have entered the wrong horseID or none exists.");
+    throw new Error("You may have entered the wrong horseID or there is none.");
   }
   const nkResponse = {
     url: res.url,
