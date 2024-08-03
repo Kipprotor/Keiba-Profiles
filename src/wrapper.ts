@@ -1,8 +1,9 @@
 import { fetchByID, searchOnNetkeiba } from "./crawler.ts";
-import { HorseInfo, searchQuery, SearchResult } from "./model.ts";
+import { HorseProfile, searchQuery, SearchResult } from "./model.ts";
 import {
   horseInfo2SearchResult,
   scrapeHorseInfo,
+  scrapeRaceResult,
   scrapeSearchResult,
 } from "./scrape/scraper.ts";
 
@@ -46,10 +47,13 @@ async function* lookupIDGenerator(
   }
 }
 
-async function profileByName(query: searchQuery): Promise<HorseInfo> {
+async function profileByName(query: searchQuery): Promise<HorseProfile> {
   const res = await searchOnNetkeiba(query);
   if (res.unique) {
-    return scrapeHorseInfo(res.html);
+    return {
+      horseInfo: scrapeHorseInfo(res.html),
+      raceResult: scrapeRaceResult(res.html),
+    };
   } else {
     throw new Error(
       "Not found or multiple results. Modify the search query so that the search results are unique.",
@@ -57,7 +61,10 @@ async function profileByName(query: searchQuery): Promise<HorseInfo> {
   }
 }
 
-async function profileByID(horseID: string): Promise<HorseInfo> {
+async function profileByID(horseID: string): Promise<HorseProfile> {
   const res = await fetchByID(horseID);
-  return scrapeHorseInfo(res.html);
+  return {
+    horseInfo: scrapeHorseInfo(res.html),
+    raceResult: scrapeRaceResult(res.html),
+  };
 }
