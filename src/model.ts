@@ -7,6 +7,13 @@ export type {
   searchQuery,
   SearchResult,
 };
+/*
+export される配列、辞書
+`./scrape/scrapeRaceResult.ts` でのみ使用される
+rowsDict: { [key: string]: string }
+targetRowsStringType: string[]
+targertRowsNumberType: string[]
+*/
 
 interface searchQuery {
   horseName?: string;
@@ -62,19 +69,28 @@ interface Pedgree {
   mMotherName: string;
 }
 
-interface RaceResult {
-  id: string; // 201509030811
-  raceDate: Date;
+/*
+type RaceResult {
+  [k in keyof InterfaceRaceResult]: string | number;
+}
+*/
 
+interface RaceResult {
+  //id: string; // 201509030811
+  raceDate: string; // 日付
+
+  held: string; // 開催: 3阪神8
+  /*
   monthCnt: number; // 3
   course: string; // 阪神
   dayCnt: number; // 8
+  */
 
-  wether: string; // wethers = ["晴", "曇", "雨", "小雨", "雪", "小雪"];
+  weather: string; // wethers = ["晴", "曇", "雨", "小雨", "雪", "小雪"];
 
   raceNumber: number; // 11
   name: string; //レース名: eg. 第56回宝塚記念(G1)
-  raceGrade?: number; // 1
+  //raceGrade?: number; // 1
 
   horseCnt: number; // 出走馬数
   starterNumber: number; //枠番
@@ -87,16 +103,64 @@ interface RaceResult {
   jockey: string; //騎手
   carryWeight: number; //斤量
 
+  dist: string; // 芝2200
+  /*
   raceType: string; // raceType = ["芝", "ダ", "芝 ダート", "障"]
   dist: number; // 2200
+  */
   trackCond: string; // trackConds = ["良", "稍重", "重", "不良"]
 
-  time: Date | undefined;
-  margin: string; //着差
-  cornerRanking: number[] | undefined; //通過
+  time: string | undefined; // タイム
+  winningMargin: string; //number; //着差
+  cornerRanking: string | undefined; //通過
+  pace: string; //ペース
   lastPhaseTime: number | undefined; //上り
 
   weight: number | string; //馬体重 number, "計不"
-  weightChange: number | string; //増加体重 number, "計不"
+  //weightChange: number | string; //増加体重 number, "計不"
   prizeMoney: number; //賞金(万円)
 }
+
+/*
+netkeiba上での表の見出しとraceResultのキーの対応
+  日付: raceDate,
+  開催: held,
+
+  //「開催」についてあとから以下の3つに分ける
+  //何ヶ月目: monthCnt
+  //場所: course
+  //何日目: dayCnt
+
+
+  天気: weather,
+
+  r: raceNumber,
+  レース名: name,
+  //レースのクラス:raceGrade?
+
+  頭数: horseCnt,
+  枠番: starterNumber,
+  馬番: horseNumber,
+
+  オッズ: odds,
+  人気: popularity,
+  着順: ranking,
+
+  騎手: jockey,
+  斤量: carryWeight,
+
+  距離(コースと距離): dist,
+  //コース: courseType
+  //距離: dist
+  馬場: trackCond,
+  ペース: pace,
+  タイム: time,
+  着差: winningMargin,
+  通過: cornerRanking,
+  上り: lastPhaseTime,
+
+  馬体重: weight,
+  //体重の変化: weightChange
+  
+  賞金: prizeMoney,
+*/

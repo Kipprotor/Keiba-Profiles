@@ -1,5 +1,4 @@
 import {
-  extractPrize,
   scrapeHorseInfo,
   scrapeHorseTitle,
   scrapePedigree,
@@ -9,13 +8,14 @@ import {
   horseInfo2SearchResult,
   scrapeSearchResult,
 } from "./scrapeSearchResult.ts";
+import { scrapeRaceResult } from "./scrapeRaceResult.ts";
 
 export {
-  extractPrize,
   horseInfo2SearchResult,
   scrapeHorseInfo,
   scrapeHorseTitle,
   scrapePedigree,
   scrapeProfTable,
+  scrapeRaceResult,
   scrapeSearchResult,
 };

@@ -8,16 +8,15 @@ import {
 } from "./wrapper.ts";
 
 import {
-  extractPrize,
   scrapeHorseInfo,
   scrapeHorseTitle,
   scrapePedigree,
   scrapeProfTable,
   scrapeSearchResult,
+  scrapeRaceResult
 } from "./scrape/scraper.ts";
 
 export {
-  extractPrize,
   fetchByID,
   lookupID,
   lookupIDGenerator,
@@ -28,5 +27,6 @@ export {
   scrapePedigree,
   scrapeProfTable,
   scrapeSearchResult,
+  scrapeRaceResult,
   searchOnNetkeiba,
 };
