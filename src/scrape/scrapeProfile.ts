@@ -1,13 +1,7 @@
 import { cheerio } from "../deps.ts";
 import { HorseInfo, Pedgree } from "../model.ts";
 
-export {
-  extractPrize,
-  scrapeHorseInfo,
-  scrapeHorseTitle,
-  scrapePedigree,
-  scrapeProfTable,
-};
+export { scrapeHorseInfo, scrapeHorseTitle, scrapePedigree, scrapeProfTable };
 
 /*
 function scrapeProfile(html: string): HorseProfile {}
@@ -31,8 +25,8 @@ function scrapeHorseInfo(html: string): HorseInfo {
     trainer: profTblRows[1],
     owner: profTblRows[2],
     breeder: profTblRows[3],
-    totalPrizeJRA: parseInt(prizeJRA),
-    totalPrizeNAR: parseInt(prizeNAU),
+    totalPrizeJRA: prizeJRA,
+    totalPrizeNAR: prizeNAU,
     recode: profTblRows[7],
     pedgree: pedgree,
   };
@@ -99,16 +93,16 @@ function scrapeProfTable(html: string): string[] {
   return profTblRows;
 }
 
-function extractPrize(prize: string): string[] {
+function extractPrize(prize: string): number[] {
   const prizeArray = prize.replace(/ |,/g, "").split("/");
-  let prizeJRA = "0";
-  let prizeNAU = "0";
+  let prizeJRA = 0;
+  let prizeNAU = 0;
 
   for (const prize of prizeArray) {
     if (prize.includes("中央")) {
-      prizeJRA = prizeNormalizer(prize).toString();
+      prizeJRA += prizeNormalizer(prize);
     } else if (prize.includes("地方")) {
-      prizeNAU = prizeNormalizer(prize).toString();
+      prizeNAU += prizeNormalizer(prize);
     }
   }
   return [prizeJRA, prizeNAU];
@@ -117,12 +111,13 @@ function extractPrize(prize: string): string[] {
 function prizeNormalizer(prize: string): number {
   const regex = /[億万]/;
   const pSplited = prize.split(regex);
+  let result = 0;
   if (pSplited.length == 3) {
-    const result = parseInt(pSplited[0]) * 10 ** 4 + parseInt(pSplited[1]);
-    return result;
+    result = parseInt(pSplited[0]) * 10 ** 4 + parseInt(pSplited[1]);
   } else {
-    return parseInt(pSplited[0]);
+    result = parseInt(pSplited[0]);
   }
+  return result * 10 ** 5;
 }
 
 function scrapePedigree(html: string): Pedgree {
