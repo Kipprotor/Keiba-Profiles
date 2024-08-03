@@ -18,13 +18,13 @@ function prizeNormalizer(prize: string): number {
   const regex = /[億万]/;
   const pSplited = prize.split(regex);
   if (pSplited.length == 3) {
-    const result = parseInt(pSplited[0])*10**4 + parseInt(pSplited[1])
-    return result
+    const result = parseInt(pSplited[0]) * 10 ** 4 + parseInt(pSplited[1]);
+    return result;
   } else {
-   return parseInt(pSplited[0])   
+    return parseInt(pSplited[0]);
   }
 }
 
 const prize = "8,435万円 (中央) /1,208万円 (地方)";
 const [prizeJRA, prizeNAU] = extractPrize(prize);
-console.log({prizeJRA, prizeNAU});
+console.log({ prizeJRA, prizeNAU });

@@ -161,6 +161,6 @@ netkeiba上での表の見出しとraceResultのキーの対応
 
   馬体重: weight,
   //体重の変化: weightChange
-  
+
   賞金: prizeMoney,
 */

@@ -1,9 +1,5 @@
-import { searchOnNetkeiba, scrapeRaceResult } from "../src/index.ts";
-import {
-  createTableParser,
-  RowData,
-  TableParserFactory,
-} from "../src/deps.ts";
+import { scrapeRaceResult, searchOnNetkeiba } from "../src/index.ts";
+import { createTableParser, RowData, TableParserFactory } from "../src/deps.ts";
 
 const raceResultParser: TableParserFactory<RowData> = createTableParser<
   RowData
@@ -39,4 +35,4 @@ const raceResult: RaceResult = {
   prizeMoney: parseFloat(rows["賞金"]),
 };
 */
-console.log(raceResults)
+console.log(raceResults);

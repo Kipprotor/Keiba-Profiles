@@ -12,8 +12,9 @@ interface PersonData extends RowData {
 }
 
 // Create a specific table parser factory
-const personTableParserFactory: TableParserFactory<RowData> =
-  createTableParser<RowData>();
+const personTableParserFactory: TableParserFactory<RowData> = createTableParser<
+  RowData
+>();
 
 // Example HTML table 1
 const html1 = `

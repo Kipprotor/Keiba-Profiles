@@ -1,14 +1,14 @@
-import {lookupIDGenerator} from "../src/index.ts";
+import { lookupIDGenerator } from "../src/index.ts";
 
 async function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const data = lookupIDGenerator({motherName: "ダイワスカーレット"})
-let page = 1
+const data = lookupIDGenerator({ motherName: "ダイワスカーレット" });
+let page = 1;
 while (true) {
-  const result = await data.next()
-  console.log("page: ",page);
+  const result = await data.next();
+  console.log("page: ", page);
   console.log(result);
   if (result.done) {
     break;

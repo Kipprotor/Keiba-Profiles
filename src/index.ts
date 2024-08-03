@@ -12,8 +12,8 @@ import {
   scrapeHorseTitle,
   scrapePedigree,
   scrapeProfTable,
+  scrapeRaceResult,
   scrapeSearchResult,
-  scrapeRaceResult
 } from "./scrape/scraper.ts";
 
 export {
@@ -26,7 +26,7 @@ export {
   scrapeHorseTitle,
   scrapePedigree,
   scrapeProfTable,
-  scrapeSearchResult,
   scrapeRaceResult,
+  scrapeSearchResult,
   searchOnNetkeiba,
 };

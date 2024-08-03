@@ -12,7 +12,7 @@ const result = await lookupID(horseName);
 console.log(result);
 */
 // HTMLを取得
-const response = await searchOnNetkeiba({ fatherName: "フジキセキ", page:1 });
+const response = await searchOnNetkeiba({ fatherName: "フジキセキ", page: 1 });
 //console.log(response);
 if (response.unique) {
   // HTMLから馬の情報を取得して、ターミナルに表示

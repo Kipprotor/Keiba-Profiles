@@ -15,12 +15,11 @@ function encodeURIeucJP(str: string): string {
   // 文字列を EUC-JP に変換
   const eucjpBuffer = iconv.encode(str, "euc-jp");
   Array.from(eucjpBuffer)
-    .map((byte) => console.log("typof(byte)",typeof(byte)))
-  
+    .map((byte) => console.log("typof(byte)", typeof byte));
+
   // バイトを % で区切って連結
   const uriEncoded = Array.from(eucjpBuffer)
-    .map((byte) => "%" + (byte as number).toString(16).toUpperCase()
-  )
+    .map((byte) => "%" + (byte as number).toString(16).toUpperCase())
     .join("");
 
   //console.log(uriEncoded);
@@ -30,7 +29,7 @@ function encodeURIeucJP(str: string): string {
 // process.argv でコマンドライン引数を取得 slice(2) で最初の２つを削除
 //const inputString: string[] = Deno.args;
 //console.log(inputString)
-const inputString = 'こんにちは';
+const inputString = "こんにちは";
 for (const item of inputString) {
   const encodedString = encodeURIeucJP(item);
   console.log(`Original String: ${item}\nEncoded String ${encodedString}`);
